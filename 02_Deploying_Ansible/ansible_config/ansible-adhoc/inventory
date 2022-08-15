@@ -1,0 +1,9 @@
+[control_node]
+localhost ansible_connection=local
+
+[linux_hosts]
+192.168.40.129
+192.168.40.138
+
+[managed_nodes:children]
+linux_hosts

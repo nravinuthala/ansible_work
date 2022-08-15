@@ -1,0 +1,21 @@
+---
+- name: create users by reading user details form the encrypted file
+  hosts: linux_nodes
+  become: true
+  remote_user: ansible
+  gather_facts: no  
+  
+  vars_files: 
+    - secret.yml
+
+  tasks:
+    - name: create users from secret.yml
+      user: 
+        name: "{{ username }}"
+        password: "{{ password | password_hash('sha256') }}"
+        state: present
+      register: password
+
+    - name: print password
+      debug: 
+        msg: the password for {{ username }} is {{ password }}

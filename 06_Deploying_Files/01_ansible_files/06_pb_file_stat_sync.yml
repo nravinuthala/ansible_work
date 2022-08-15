@@ -1,0 +1,46 @@
+---
+- name: get status of files
+  hosts: rhel_nodes
+  gather_facts: no
+
+  tasks:
+    ##########################################
+    ### find checksum using stat           ###
+    ##########################################
+    # - name: verify checksum of file
+    #   stat:
+    #     path: files/copied_file.txt
+    #     checksum_algorithm: md5
+    #     #checksum_algorithm: sha256
+    #   register: output
+
+    # - name: print output
+    #   debug:
+    #     var: output.stat.checksum
+
+    # - name: print output
+    #   debug:
+    #     msg: "The checksum of the file is {{ output.stat.checksum }}"
+
+    ##########################################
+    ### find stat for /etc/passwd           ###
+    ##########################################
+    # - name: stat for /etc/passwd
+    #   stat:
+    #     path: /etc/passwd
+    #   register: output
+
+    - name: sync file from src dir on control node to dest dir on managed nodes
+      block:
+        - name: gather facts manually
+          setup:
+
+        - name: sync task
+          synchronize:
+            src: /home/{{ ansible_user_id }}/files/src
+            dest: files/dest
+          register: output
+
+    - name: print output
+      debug:
+        var: output

@@ -1,0 +1,54 @@
+---
+- name: MariaDB server is installed and configured
+  hosts: rhel_nodes
+  force_handlers: yes
+  gather_facts: no
+  become: true
+  remote_user: ansible
+  
+
+  vars:
+    db_packages:
+      - mariadb-server
+      - python3-PyMySQL
+    db_service: mariadb
+    cfg_file_dest: /etc/my.cnf
+
+  tasks:
+    - name: install maria db
+      yum:
+        name: mariadb-server
+        state: absent
+      ignore_errors: yes
+      notify:
+        - set db password
+
+    - name: Ensure db service is running
+      service:
+        name: "{{ db_service }}"
+        state: started
+        enabled: true
+      ignore_errors: yes
+
+    - name: Copy config file
+      copy:
+        src: ./db_config.cfg
+        dest: /etc/my.cnf
+        owner: mysql
+        group: mysql
+        force: yes
+      # ignore_errors: yes
+      notify: restart db service
+
+  handlers:
+    - name: restart db service
+      service:
+        # name: "{{ db_service }}"
+        name: dbservice
+        state: restarted
+
+    - name: set db password
+      mysql_user:
+        name: root
+        password: redhat
+

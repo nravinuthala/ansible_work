@@ -1,0 +1,10 @@
+---
+- name: stop the db service
+  service:
+    name: mariadb
+    state: stopped
+
+- name: remove the db package
+  yum:
+    name: mariadb-server
+    state: absent

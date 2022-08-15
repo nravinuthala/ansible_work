@@ -1,0 +1,16 @@
+---
+- name: take action only when the variable is defined. if not defined, do not throw error.
+  hosts: rhel_nodes
+  gather_facts: no
+  become: true
+
+  vars: 
+    #my_pkg: firewalld
+
+  tasks:
+    - name: install package only if the variable with the package name is defined
+      package:
+        name: "{{ my_pkg }}"
+        state: latest
+      when: my_pkg is defined 
+      

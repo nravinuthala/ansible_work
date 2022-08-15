@@ -1,0 +1,26 @@
+---
+- name: copy files from control node to all managed hosts usng copy module
+  hosts: rhel_nodes
+  gather_facts: yes
+  become: yes
+  become_user: devops
+
+  tasks:
+    - name: get localuser name
+      become: false
+      local_action: command whoami
+      register: whoami_result
+    - name: copy users files to managed hosts
+      copy:
+        src: /home/{{ whoami_result.stdout }}/files/users.txt
+        dest: /home/{{ ansible_user_id }}/files/users.txt
+        owner: devops
+        group: devops
+        mode: u+rw,g-wx,o-rwx
+        setype: samba_share_t
+      register: output
+
+    - name: print output
+      debug:
+        var: output
+

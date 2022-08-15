@@ -1,0 +1,6 @@
+---
+- name: roles test
+  hosts: localhost
+  
+  roles:
+    - user

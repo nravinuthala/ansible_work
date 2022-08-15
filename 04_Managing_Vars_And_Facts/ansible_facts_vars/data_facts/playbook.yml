@@ -1,0 +1,24 @@
+---
+- name: install package, start service using ansible facts info
+  hosts: 192.168.40.138
+  become: true
+  
+  tasks:
+      - name: install package on managed hosts
+        yum:
+          name: "{{ ansible_facts.ansible_local.custom.general.package }}"
+          state: latest
+
+      - name: debug and see the values
+        debug:
+          msg:
+            - "{{ ansible_facts.ansible_local.custom.general.service }}"
+            - "{{ ansible_facts.ansible_local.custom.general.state }}"
+            - "{{ ansible_facts.ansible_local.custom.general.enabled }}"
+
+      - name: ensure service is enabled and started
+        service: 
+          name: "{{ ansible_facts.ansible_local.custom.general.service }}"
+          state: "{{ ansible_facts.ansible_local.custom.general.state }}"
+          enabled: "{{ ansible_facts.ansible_local.custom.general.enabled }}"
+        

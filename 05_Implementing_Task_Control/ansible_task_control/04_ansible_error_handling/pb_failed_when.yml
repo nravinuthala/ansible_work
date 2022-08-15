@@ -1,0 +1,15 @@
+---
+- name: mark task as failed based on some condition
+  hosts: rhel_nodes
+  gather_facts: no
+
+  tasks:
+    - name: run a task that always passes
+      shell: "cat /proc/meminfo|grep -i memtotal|awk '{print $2/1024/1024}'"
+      register: output
+      failed_when: "output.stdout|float < 4"
+      ignore_errors: yes
+
+    - name: print task output
+      debug:
+        var: output

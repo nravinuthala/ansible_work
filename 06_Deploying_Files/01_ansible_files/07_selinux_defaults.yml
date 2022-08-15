@@ -1,0 +1,20 @@
+---
+- name: set the selinux default for the files which were moved to managed hosts
+  hosts: rhel_nodes
+  gather_facts: no
+  become: true
+  become_user: devops
+
+  tasks:
+    - name: SELinux file context is set to defaults
+      file:
+        path: /home/devops/files/users.txt
+        seuser: _default
+        serole: _default
+        setype: _default
+        selevel: _default
+      register: output
+
+    - name: print output
+      debug:
+        var: output

@@ -1,0 +1,19 @@
+---
+- name: basic loop example
+  hosts: rhel_nodes
+  gather_facts: no
+  remote_user: ansible
+  
+  vars:
+    packages:
+      - httpd
+      - firewalld
+      - bluetooth
+      - crond
+
+  tasks:
+    - name: ensure httpd is running
+      service:
+        name: "{{ item }}"
+        state: started
+      loop: "{{ packages }}"

@@ -1,0 +1,33 @@
+---
+- name: touch a file on managed host
+  hosts: rhel_nodes
+  gather_facts: no
+  become: true
+  remote_user: ansible
+
+  tasks:
+    - name: touch a file and set permissions
+      file:
+        path: files/touched_file
+        owner: jack
+        group: jack
+        mode: 0640
+        state: touch
+      #register: file_output
+
+    - name: SELinux type is set to samba_share_t
+      file:
+        path: files/touched_file
+        setype: samba_share_t
+      #register: file_output
+
+    - name: SELinux type is persistently set to samba_share_t
+      sefcontext:
+        target: files/touched_file
+        setype: samba_share_t
+        state: present
+      register: file_output
+
+    - name: print output
+      debug:
+        var: file_output

@@ -1,0 +1,4 @@
+---
+# defaults file for motd
+
+system_owner: user@host.example.com

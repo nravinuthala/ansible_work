@@ -1,0 +1,12 @@
+---
+- name: prepare the web server
+  import_playbook: 01_pb_web.yml
+
+- name: prepare the db server
+  import_playbook: 02_pb_db.yml
+  
+- name: third play
+  hosts: localhost
+  tasks:
+    - debug:
+        msg: "third play"

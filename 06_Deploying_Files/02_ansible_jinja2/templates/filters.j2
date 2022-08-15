@@ -1,0 +1,15 @@
+{{ ip_address | default('127.0.0.1') }} {{ hostname | default('localhost') }}
+
+Hostname:       {{ url | urlsplit('hostname') }}
+
+Netloc:         {{ url | urlsplit('netloc') }}
+
+Username:       {{ url | urlsplit('username') }}
+
+Password:       {{ url | urlsplit('password') }}
+
+Mounts:
+
+{{ ansible_facts.memory_mb | to_nice_yaml }}
+
+{{ ansible_interfaces | select('match', '^(vir).') | list }}

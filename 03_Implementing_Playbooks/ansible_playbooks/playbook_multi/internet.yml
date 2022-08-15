@@ -1,0 +1,58 @@
+---
+- name: enable internet on the server
+  hosts: 192.168.40.138
+  become: true
+
+  tasks:
+    - name: install latest version of the prerequisites
+      package:
+        name: 
+          - firewalld
+          - httpd
+          - mariadb-server
+          - php
+          - php-mysqlnd
+        state: latest
+
+    - name: ensure firewalld is enabled and running
+      service:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: ensure httpd is enabled and running
+      service:
+        name: httpd
+        enabled: true
+        state: started
+
+    - name: ensure mariadb is enabled and running
+      service:
+        name: mariadb
+        enabled: true
+        state: started
+
+    - name: firewalld permits access to httpd
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+
+    - name: download index php to destination
+      get_url:
+        url: https://www.php.net/manual/en/tutorial.firstpage.php
+        dest: /var/www/html/index.php
+        mode: 0644
+
+- name: test whether internet is enabled on the server
+  hosts: 192.168.40.129
+  become: no
+
+  tasks: 
+    - name: test internet availability
+      uri:
+        url: http://192.168.40.138/index.php
+        return_content: yes
+        status_code: 200
+

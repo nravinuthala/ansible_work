@@ -1,0 +1,17 @@
+---
+- name: Idempotent playbook demo
+  hosts: linux_nodes
+  become: true
+  remote_user: ansible
+
+  tasks:
+    - name: use copy module to write lines to file
+      copy:
+        dest: /etc/resolv.conf
+        content: "nameserver 192.0.2.1\n"
+      register: copy_output
+
+    - name: print output
+      debug:
+        var: copy_output["secontext"]
+...

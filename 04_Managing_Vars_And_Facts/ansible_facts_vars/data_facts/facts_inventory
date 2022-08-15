@@ -1,0 +1,6 @@
+[control_node]
+localhost
+
+[linux_nodes]
+192.168.40.138
+192.168.40.139

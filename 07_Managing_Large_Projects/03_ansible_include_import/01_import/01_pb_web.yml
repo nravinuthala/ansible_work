@@ -1,0 +1,21 @@
+---
+- name: prepare the web server
+  hosts: rhel_nodes
+  gather_facts: no
+  become: yes
+  remote_user: ansible
+  ignore_unreachable: true
+
+  tasks:
+    - name: ensure web server is up to date
+      yum:
+        name: httpd
+        state: latest
+      ignore_unreachable: true
+      ignore_errors: yes
+      register: output
+   
+    - name: print output
+      debug:
+        var: output
+  

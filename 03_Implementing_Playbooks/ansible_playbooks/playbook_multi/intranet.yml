@@ -1,0 +1,52 @@
+---
+- name: Enable intranet services on hosts
+  hosts: 192.168.40.138
+  become: yes
+
+  tasks: 
+    - name: Ensure latest versions of httpd and firewalld
+      dnf:
+        name:
+          - httpd
+          - firewalld
+        state: latest
+
+    - name: test html page is setup
+      copy:
+        content: "Welcome!!!"
+        dest: /var/www/html/index.html
+
+    - name: firewalld enabled and running
+      service:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: firewalld permits access to httpd service
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+
+    - name: httpd enabled and running
+      service: 
+        name: httpd
+        enabled: true
+        state: started
+
+- name: test intranet webserver
+  hosts: 192.168.40.129
+  become: no
+
+  tasks: 
+  - name: connect to the intranet webserver
+    uri:
+      url: http://192.168.40.138
+      return_content: yes
+      status_code: 200
+      
+
+
+
+  

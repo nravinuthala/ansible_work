@@ -1,0 +1,35 @@
+---
+- name: roles with pre and post tasks
+  hosts: localhost
+
+  vars: 
+    - flag: true
+
+  pre_tasks:
+    - name: debug task
+      debug: 
+        msg: 'pre-task'
+      notify: my handler
+      changed_when: flag
+
+  roles:
+    - user
+
+  tasks:
+    - name: debug
+      debug: 
+        msg: 'first task'
+      notify: my handler
+      changed_when: flag
+
+  post_tasks:
+    - name: debug
+      debug:
+        msg: 'post task'
+      notify: my handler
+      changed_when: flag
+      
+  handlers:
+    - name: my handler
+      debug:
+        msg: 'Running my handler'

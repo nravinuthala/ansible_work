@@ -1,0 +1,14 @@
+---
+- name: gather facts example
+  hosts: 192.168.40.138
+  remote_user: ansible
+
+  tasks:
+    - name: write facts to file
+      copy:
+        dest: files/facts.json
+        content: "some static text"
+      
+    - name: print output
+      debug:
+        var: hostvars

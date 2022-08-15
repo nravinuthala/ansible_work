@@ -1,0 +1,59 @@
+---
+- name: Task Failure Exercise
+  hosts: rhel_nodes
+  gather_facts: no
+  #become: true
+
+  vars:
+    #this line causes block to fail and invoke rescue tasks
+    #web_package: http 
+    #this line causes block to succeed and rescue will not be invoked
+    web_package: httpd
+    db_package: mariadb-server
+    db_service: mariadb
+
+  tasks:
+    - name: get local system date
+      command: date
+      register: command_output
+      changed_when: command_output.stdout.find("11") != -1
+
+    - name: print command output
+      debug:
+        var: command_output.stdout
+    
+    - name: attempt to setup web server or db server
+      block:
+        - name: install {{web_package}} package
+          yum:
+            name: "{{web_package}}"
+            state: present
+          #ignore_errors: yes
+          register: block_output
+        
+        - name: print output
+          debug:
+            var: block_output
+    
+      rescue:
+        - name: install {{db_package}} package
+          yum:
+            name: "{{db_package}}"
+            state: present
+          register: rescue_output
+
+        - name: print output
+          debug:
+            var: rescue_output
+
+      always:
+        - name: restart db service
+          service:
+            name: mariadb
+            state: restarted
+          register: always_output
+          when: "rescue_output.changed is true"
+        
+        - name: print output
+          debug:
+            var: always_output

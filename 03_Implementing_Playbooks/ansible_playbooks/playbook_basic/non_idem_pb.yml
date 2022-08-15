@@ -1,0 +1,8 @@
+- name: Play to demo Non-idempotent approach with shell module
+  hosts: linux_nodes
+  become: yes
+
+  tasks:
+    - name: write lines to specified file
+      shell: 
+        echo "nameserver 192.0.2.1\n" > /etc/resolv.conf

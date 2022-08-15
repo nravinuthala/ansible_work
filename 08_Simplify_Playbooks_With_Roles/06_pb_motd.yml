@@ -1,0 +1,7 @@
+---
+- name: use the created motd role to set motd on managed hosts
+  hosts: rhel_nodes
+  ignore_unreachable: true
+
+  roles:
+    - motd 

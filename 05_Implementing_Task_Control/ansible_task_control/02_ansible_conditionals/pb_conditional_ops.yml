@@ -1,0 +1,21 @@
+---
+- name: try out different operations that can be used in conditional statements
+  hosts: rhel_nodes
+
+  vars:
+    #interface: "lo"
+    interface: "virbr1"
+
+  tasks:
+    - name: check for various attributes of managed host using gathered facts and do something when a condition is met
+      # package:
+      #   name: mariadb-server
+      #   state: latest
+      # when: ansible_facts.memfree_mb > 2000
+
+      debug: 
+        #var: ansible_facts.machine
+        var: ansible_facts.hostnqn
+      when: interface in ansible_facts.interfaces
+      #when: ansible_facts.ens160.promisc is true
+      #when: ansible_facts.memfree_mb < 2000

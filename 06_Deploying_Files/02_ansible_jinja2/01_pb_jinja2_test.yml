@@ -1,0 +1,22 @@
+---
+- name: copy files from control node to all managed hosts usng copy module
+  hosts: rhel_nodes
+
+  tasks:
+    # - name: build and deploy hosts files to managed hosts
+    #   copy:
+    #     content: |
+    #              "{# /etc/hosts line #}"
+    #              "{{ ansible_facts['default_ipv4']['address'] }} {{ ansible_facts['hostname'] }}"
+    #     dest: /home/{{ ansible_user_id }}/files/test_hosts
+    #   register: output
+
+    - name: build hosts file from template and deploy
+      template:
+        src: templates/hosts_content.j2
+        dest: /home/{{ ansible_user_id }}/files/test_hosts2
+      register: output
+
+    - name: print output
+      debug:
+        var: output

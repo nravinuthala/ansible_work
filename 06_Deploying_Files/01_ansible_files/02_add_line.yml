@@ -1,0 +1,18 @@
+---
+- name: add a line to the files copied to managed hosts
+  hosts: rhel_nodes
+  gather_facts: no
+  become: true
+  become_user: devops
+
+  tasks:
+    - name: add a line using lininfile module
+      lineinfile:
+        path: /home/devops/files/users.txt
+        line: This line was added by the lineinfile module.
+        state: present
+      register: output
+
+    - name: print output
+      debug:
+        var: output

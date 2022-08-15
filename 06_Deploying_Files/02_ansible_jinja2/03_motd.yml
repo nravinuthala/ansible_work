@@ -1,0 +1,21 @@
+---
+- name: copy motd file to the managed hosts
+  hosts: linux_nodes
+  become: true
+
+  vars:
+    - system_owner: admin@example.com
+
+  tasks:
+    - name: build file from template and copy to managed hosts
+      template:
+        src: templates/motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644
+      register: output
+
+    - name: print output
+      debug:
+        var: output

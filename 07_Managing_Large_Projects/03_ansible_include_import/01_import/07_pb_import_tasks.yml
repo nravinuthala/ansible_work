@@ -1,0 +1,9 @@
+---
+- name: Install web server
+  hosts: rhel_nodes
+  gather_facts: no
+  ignore_unreachable: true
+  
+  tasks:
+    - import_tasks: 05_tsks_web_server.yml
+    - import_tasks: 06_tsks_db_server.yml

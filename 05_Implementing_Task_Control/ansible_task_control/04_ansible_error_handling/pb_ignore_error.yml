@@ -1,0 +1,17 @@
+---
+  - name: ignore task errors
+    hosts: rhel_nodes
+    gather_facts: no
+    become: yes
+
+    tasks:
+      - name: try to install a non existent package
+        yum: 
+          name: notapkg
+          state: latest
+        register: output
+        ignore_errors: yes
+
+      - name: print output
+        debug:
+          var: output

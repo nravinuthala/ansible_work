@@ -1,0 +1,14 @@
+---
+- name: basic loop example
+  hosts: rhel_nodes
+
+  tasks:
+    - name: ensure httpd is running
+      service:
+        name: httpd
+        state: started
+
+    - name: ensure firewalld is running
+      service:
+        name: firewalld
+        state: started

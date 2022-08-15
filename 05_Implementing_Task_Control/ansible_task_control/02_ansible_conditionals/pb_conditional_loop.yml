@@ -1,0 +1,19 @@
+---
+- name: loop thorugh and check condition
+  hosts: rhel_nodes
+  become: true
+  remote_user: ansible
+
+  tasks:
+    - name: install if enough space
+      package:
+        name: mariadb-server
+        state: latest
+      loop: "{{ansible_mounts}}"
+      when: item.mount == "/" and item.size_available > 3000000000
+      # register: result
+
+    # - name: print facts
+    #   debug:
+    #     msg: "{{result}}"
+      

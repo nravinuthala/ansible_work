@@ -1,0 +1,14 @@
+---
+- name: run task when a variable is true
+  hosts: rhel_nodes
+  gather_facts: no
+
+  vars: 
+    run_task: true
+
+  tasks:
+    - name: install httpd if run_task is true
+      package: 
+        name: httpd
+        state: present
+      when: run_task

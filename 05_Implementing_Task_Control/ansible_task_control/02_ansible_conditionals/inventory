@@ -1,0 +1,13 @@
+[control_node]
+localhost
+
+[rhel_nodes]
+192.168.40.138
+192.168.40.139
+
+[ubuntu_nodes]
+192.168.40.129
+
+[linux_nodes:children]
+rhel_nodes
+ubuntu_nodes

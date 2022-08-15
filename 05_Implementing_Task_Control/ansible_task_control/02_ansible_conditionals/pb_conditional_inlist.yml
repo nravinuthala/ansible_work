@@ -1,0 +1,23 @@
+---
+- name: demonstrate "in" keyword
+  hosts: rhel_nodes
+  
+  vars:
+    distros:
+      - RedHat
+      - Fedora
+
+  tasks:
+
+    - name: look for ansible_distribution in list of supported distros
+      package:
+        name: httpd
+        state: latest
+      when: ansible_distribution in distros
+      register: result
+      
+    - name: print result 
+      debug:
+        msg: 
+          - "{{result}}"
+          - "{{ansible_distribution}}" 

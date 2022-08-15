@@ -1,0 +1,21 @@
+---
+- name: set up local facts on remote machines
+  hosts: linux_nodes
+  gather_facts: no
+  become: true
+
+  vars:
+    remote_dir: /etc/ansible/facts.d
+    facts_file: custom.fact
+
+  tasks:
+    - name: create remote directory if it does not exist (in recursive way)
+      file:
+        state: directory
+        recurse: yes
+        path: "{{ remote_dir }}"
+
+    - name: setup facts in remote dir
+      copy:
+        src: "{{ facts_file }}"
+        dest: "{{ remote_dir }}"

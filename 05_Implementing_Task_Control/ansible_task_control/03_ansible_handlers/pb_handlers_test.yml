@@ -1,0 +1,25 @@
+---
+- name: modify index.html and notify handler to restart httpd
+  hosts: rhel_nodes
+  gather_facts: no
+
+  tasks:
+    - name: copy index.html content
+      copy:
+        content: '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>Welcome to the Web!!!</body></html>'
+        dest: /var/www/html/index.html
+
+      notify:
+        - restart apache
+        - restart firewall
+
+  handlers:
+    - name: restart apache
+      service:
+        name: httpd
+        state: restarted
+
+    - name: restart firewall
+      service:
+        name: firewalld
+        state: restarted

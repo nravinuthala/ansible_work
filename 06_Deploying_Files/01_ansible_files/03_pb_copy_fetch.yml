@@ -1,0 +1,61 @@
+---
+- name: copy files from control node to managed nodes
+  hosts: rhel_nodes
+  #gather_facts: no
+
+  tasks:
+    # - name: copy file
+    #   copy:
+    #     src: /home/{{ ansible_user_id }}/files/file_to_copy.txt
+    #     dest: files/copied_file.txt
+    #   register: copy_output
+
+    # - name: print output
+    #   debug:
+    #     var: copy_output
+
+    # - name: fetch a file from managed host
+    #   fetch:
+    #     src: "/home/{{ ansible_user_id }}/.ssh/id_rsa.pub"
+    #     dest: "/home/{{ ansible_user_id }}/files/keys"
+    #   register: fetch_output
+
+    # - name: print fetch output
+    #   debug:
+    #     var: fetch_output
+
+    # - name: add a line to an existing file
+    #   lineinfile:
+    #     path: files/copied_file.txt
+    #     #path: files/new_file.txt
+    #     line: "line added by lineinfile module"
+    #     state: present
+    #     #create: yes
+    #   register: lineinfile_output
+
+    # - name: print lineinfile output
+    #   debug:
+    #     var: lineinfile_output
+
+    # - name: add a line to an existing file
+    #   blockinfile:
+    #     path: files/copied_file.txt
+    #     block: |
+    #       First line in the additional block of text
+    #       Second line in the additional block of text
+    #     state: present
+    #   register: blockinfile_output
+
+    # - name: print blockinfile output
+    #   debug:
+    #     var: blockinfile_output
+
+    - name: delete file from manages host
+      file:
+        dest: files/new_file.txt
+        state: absent
+      register: delete_output
+
+    - name: print delete file output
+      debug:
+        var: delete_output

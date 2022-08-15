@@ -1,0 +1,23 @@
+---
+- name: execute block of tasks based on a condition
+  hosts: rhel_nodes # executes only on rhel nodes
+  #hosts: ubuntu_nodes # skips on ubuntu nodes
+  become: true #need this as package has to be installed using yum
+
+  tasks:
+    - name: install and configure yum versionlock plugin
+      block:
+        - name: install required package
+          yum:
+            name: yum-plugin-versionlock
+            state: present
+        
+        - name: lock version of tzdata
+          lineinfile:
+            dest: /etc/yum/pluginconf.d/versionlock.list
+            line: tzdata-2016j-1
+            state: present
+      # when: ansible_distribution == "RedHat"
+    - name: task outside block
+      debug:
+        msg: "task outside block"

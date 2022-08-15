@@ -1,0 +1,14 @@
+---
+- name: copy home page content on to the server
+  hosts: linux_nodes
+  tasks:
+    - name: create directory called 'files'
+      file:
+        path: files
+        state: directory
+
+    - name: copy content
+      copy:
+        content: '<html><head><title>Welcome!!!</title></head><body><h1>Hey there!!!<br>Success! Its working!</h1></body></html>'
+        dest: files/index.html
+...

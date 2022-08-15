@@ -1,0 +1,11 @@
+Prerequisite Checks:
+{% if ansible_facts.python_version is version_compare('3.6.8', '<') %}
+Python Version:         [Ok]
+{% else %}
+Python Version:         [Failed]
+{% endif %}
+{% if ansible_facts.selinux.status == "enabled" %}
+SELinux:                [Enabed]
+{% else %}
+SELinux:                 [Disabled]
+{% endif %}

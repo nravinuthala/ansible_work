@@ -1,0 +1,12 @@
+[control_node]
+localhost ansible_connection=local
+
+[linux_nodes:children]
+rhel_nodes
+ubuntu_nodes
+
+[rhel_nodes]
+192.168.40.138
+
+[ubuntu_nodes]
+192.168.40.129

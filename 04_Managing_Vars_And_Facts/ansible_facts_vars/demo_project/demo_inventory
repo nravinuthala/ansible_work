@@ -1,0 +1,15 @@
+[datacenter1]
+demo1.example.com
+demo2.example.com
+
+[datacenter2]
+demo3.example.com
+demo4.example.com
+
+[datacenters:children]
+datacenter1
+datacenter2
+
+[linux_nodes]
+192.168.40.138
+192.168.40.129

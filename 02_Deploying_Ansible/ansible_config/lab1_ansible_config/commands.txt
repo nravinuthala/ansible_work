@@ -1,0 +1,8 @@
+#use the command module to check the user running the commands on managed hosts
+ansible all -m command -a 'id'
+
+#use copy module to copy some text to a file on the managed hosts. this requires privilege escalation
+ansible all -m copy -a 'content="This server is managed by Ansible.\n" dest=/etc/motd' --become
+
+#use command module to verify the contents of the file copied in the above command
+ansible all -m command -a 'cat /etc/motd'

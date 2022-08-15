@@ -1,0 +1,31 @@
+---
+- name: explore various host patterns
+  hosts: all
+  connection: local
+  gather_facts: no
+  
+  tasks:
+    - name: manual gather facts on localhost for time
+      setup:
+      run_once: true
+      delegate_to: localhost
+
+    - name: print time before starting
+      debug:
+        var: ansible_date_time.iso8601_basic
+      run_once: true
+      delegate_to: localhost
+
+    - name: manual gather facts
+      setup:
+      
+    - name: print host names from inventory
+      debug:
+        msg: 
+          - "{{ inventory_hostname }}"
+
+    - name: print time after finishing
+      debug:
+        var: ansible_date_time.iso8601_basic
+      run_once: true
+      delegate_to: localhost

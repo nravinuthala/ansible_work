@@ -1,0 +1,17 @@
+---
+- name: loop over dictionary and ensure users exist
+  hosts: rhel_nodes
+  gather_facts: no
+  become: true
+
+  tasks:
+    - name: ensure the following users exist
+      user:
+        name: "{{ item.name }}"
+        state: present
+        groups: "{{ item.groups }}"
+      loop:
+        - name: joe
+          groups: wheel
+        - name: jack
+          groups: root

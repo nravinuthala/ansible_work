@@ -1,0 +1,11 @@
+- name: Execute a role as a task
+  hosts: localhost
+
+  tasks:
+    - name: A normal task
+      debug:
+        msg: 'first task'
+
+    - name: A task to include user here
+      import_role: 
+        name: user

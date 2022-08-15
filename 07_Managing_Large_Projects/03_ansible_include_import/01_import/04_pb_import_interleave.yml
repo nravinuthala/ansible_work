@@ -1,0 +1,15 @@
+- name: prepare the web server
+  import_playbook: 01_pb_web.yml
+
+- name: my own play
+  hosts: rhel_nodes
+  ignore_unreachable: true
+  tasks:
+    - name: print some random msg
+      debug:
+        msg: "this is my own play in between imported plays"
+      ignore_unreachable: true
+
+- name: prepare the db server
+  import_playbook: 02_pb_db.yml
+  

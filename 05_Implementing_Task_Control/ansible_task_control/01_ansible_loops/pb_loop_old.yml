@@ -1,0 +1,16 @@
+---
+- name: demonstrates old style usage of looping over list of values
+  hosts: rhel_nodes
+  gather_facts: no
+
+  vars:
+    data: 
+      - user1
+      - user2
+      - user3
+
+  tasks: 
+    - name: read data from list and print it
+      debug:
+        msg: "{{item}}"
+      with_items: "{{data}}"

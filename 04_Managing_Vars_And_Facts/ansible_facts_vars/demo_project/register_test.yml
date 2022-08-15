@@ -1,0 +1,16 @@
+---
+- name: demo the use of register statement to capture output of a task into a temp variables
+  hosts: 192.168.40.138
+  become: true
+  
+  tasks:
+  - name: install httpd package
+    yum:
+      name: httpd
+      state: present
+    register:
+      install_result
+
+  - name: print the registered variable value to output console
+    debug:
+      var: install_result

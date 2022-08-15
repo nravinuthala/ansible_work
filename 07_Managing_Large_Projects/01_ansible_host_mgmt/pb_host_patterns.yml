@@ -1,0 +1,19 @@
+---
+- name: demonstrate different host patterns
+  # hosts: all
+  # hosts: ungrouped
+  # hosts: lab
+  # hosts: '*.example.com'
+  # hosts: '*'
+  # hosts: 'lab*'
+  # hosts: '192*'
+  # hosts: lab, test
+  # hosts: lab, &datacenter1
+  # hosts: lab, data*, 192.168.2.2
+  # hosts: lab, data*, 192.168.2.2, !test*.example.com
+  hosts: all, !test
+
+  tasks:
+    - name: gather facts manually
+      setup:
+        

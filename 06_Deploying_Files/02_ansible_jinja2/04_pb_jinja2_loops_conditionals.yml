@@ -1,0 +1,39 @@
+---
+- name: copy files from control node to all managed hosts usng copy module
+  hosts: rhel_nodes
+
+  #vars:
+    # users:
+    #   - user1
+    #   - user2
+    #   - user3
+    #   - user4
+    #   - user5
+  # vars_files:
+  #   - users.yml
+  
+  vars:
+    url: "https://admin:admin@123@the-internet.com/basic_auth"
+
+  tasks:
+    # - name: build hosts file from template and deploy
+    #   template:
+    #     src: templates/users.j2
+    #     dest: /home/{{ ansible_user_id }}/files/users.txt
+    #   register: output
+
+    # - name: build hosts file from template and deploy
+    #   template:
+    #     src: templates/support_text.j2
+    #     dest: /home/{{ ansible_user_id }}/files/support_text.txt
+    #   register: output
+
+    - name: build hosts file from template and deploy
+      template:
+        src: templates/filters.j2
+        dest: /home/{{ ansible_user_id }}/files/url_details.txt
+      register: output
+
+    - name: print output
+      debug:
+        var: ansible_facts.python_version, output

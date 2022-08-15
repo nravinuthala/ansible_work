@@ -1,0 +1,10 @@
+---
+- name: package test
+  hosts: linux
+
+  tasks:
+    - name: install latest web server
+      yum:
+        name: httpd
+        state: present
+... 

@@ -1,0 +1,47 @@
+---
+- name: Install and start apache2 on Ubuntu
+  hosts: 192.168.40.129
+  remote_user: nexadmin
+  become: true
+
+  tasks:
+    - name: httpd package is present
+      package:
+        name: apache2
+        state: present
+
+    - name: Correct index.html is present
+      copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        remote_src: yes
+
+    - name: httpd is started
+      service:
+        name: apache2
+        state: started
+        enabled: true
+
+- name: Install and start httpd on RHEL
+  hosts: 192.168.40.138
+  remote_user: nexadmin
+  become: true
+
+  tasks:
+    - name: httpd package is present
+      package:
+        name: httpd
+        state: present
+
+    - name: Correct index.html is present
+      copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        remote_src: yes
+
+    - name: httpd is started
+      service:
+        name: httpd
+        state: started
+        enabled: true 
+...

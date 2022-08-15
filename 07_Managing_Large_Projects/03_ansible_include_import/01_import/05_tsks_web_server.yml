@@ -1,0 +1,10 @@
+---
+- name: stop the httpd service
+  service:
+    name: httpd
+    state: stopped
+
+- name: remove the httpd package
+  yum:
+    name: httpd
+    state: absent

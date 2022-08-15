@@ -1,0 +1,21 @@
+---
+- name: Use fetch module to retrieve secure log files
+  hosts: rhel_nodes
+  gather_facts: no
+
+  tasks:
+    - name: get local user name
+      become: false
+      local_action: command whoami
+      register: local_user
+
+    - name: fetch secure log for backup
+      fetch:
+        src: /var/log/secure
+        dest: /home/{{ local_user.stdout }}/files/ #secure_backup
+        #flat: true
+      register: output
+
+    - name: print output
+      debug:
+        var: output

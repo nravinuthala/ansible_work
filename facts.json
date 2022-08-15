@@ -1,0 +1,12 @@
+localhost | SUCCESS => {
+    "ansible_facts": {
+        "ansible_device_links": {
+            "ids": {},
+            "labels": {},
+            "masters": {},
+            "uuids": {}
+        },
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false
+}

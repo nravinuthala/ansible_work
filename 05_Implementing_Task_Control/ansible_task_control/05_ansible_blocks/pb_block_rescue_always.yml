@@ -1,0 +1,35 @@
+---
+- name: define block, rescue, always clauses
+  hosts: rhel_nodes
+  gather_facts: no
+  become: true
+
+  tasks:
+    - name: task outside block
+      debug:
+        msg: "task outside block"
+
+    - name: Upgrade DB
+      block:
+        - name: task that imght fail
+          shell:
+            cmd: /usr/local/lib/upgrade-database # since this command fails, rescue task will be invoked 
+            # cmd: /bin/true # since this command succeeds, rescue task wont be invoked
+      rescue:
+        - name: rescue task that will be called if above task fails
+          shell:
+            cmd: /usr/local/lib/upgrade-database
+            # cmd: /bin/true
+      always:
+        - name: tasks that will always be invoked irrespective of the status of block and rescue tasks
+          service:
+            name: httpd
+            state: restarted
+          ignore_errors: yes
+
+    - name: task outside block
+      debug:
+        msg: "task outside block"
+
+    
+

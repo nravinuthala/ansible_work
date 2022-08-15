@@ -1,0 +1,50 @@
+---
+- name: deploy and start apache httpd service
+  hosts: 192.168.40.138
+  become: true
+
+  vars_files:
+    - vars/pb_vars.yml
+
+  tasks:
+    - name: required packages are installed and up to date
+      package:
+        name:
+          - "{{ web_pkg }}"
+          - "{{ fw_pkg }}"
+          - "{{ python_pkg }}"
+        state: latest
+
+    - name: the {{ fw_svc }} is started and enabled
+      service: 
+        name: "{{ fw_svc }}"
+        enabled: true
+        state: started
+
+    - name: the {{ web_svc }} is started and enabled
+      service: 
+        name: "{{ web_svc }}"
+        enabled: true
+        state: started
+
+    - name: web content is in place
+      copy: 
+        content: "Welcome to the Web!!!"
+        dest: /var/www/html/index.html
+
+    - name: the firewall port for the {{ rule }} is open
+      firewalld: 
+        service: "{{ rule }}"
+        permanent: true
+        immediate: true
+        state: enabled
+
+- name: verify apache service 
+  hosts: 192.168.40.129
+  become: false
+
+  tasks:
+    - name: ensure web service is reachable
+      uri:
+        url: http://192.168.40.138
+        status_code: 200

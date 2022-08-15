@@ -1,0 +1,27 @@
+---
+- name: get and print facts about managed hosts
+  hosts: linux_nodes
+  gather_facts: no
+
+  tasks:
+    - name: manual gathering of facts
+      setup: 
+      register: facts_output
+
+    - name: print facts
+      debug:
+        msg: 
+          # - "Hostname:: {{ ansible_facts['hostname'] }}"
+          # - "FQDN:: {{ ansible_facts['fqdn'] }}"
+          # - "IPV4 Address:: {{ ansible_facts['default_ipv4']['address'] }}"
+          # - "Interfaces:: {{ ansible_facts['interfaces'] }}"
+          # - "Name Servers:: {{ ansible_facts['dns']['nameservers'] }}"
+          # - "Kernel:: {{ ansible_facts['kernel'] }}"
+          # - "Hostname:: {{ ansible_facts.hostname }}"
+          # - "FQDN:: {{ ansible_facts.fqdn }}"
+          # - "IPV4 Address:: {{ ansible_facts.default_ipv4.address }}"
+          # - "Interfaces:: {{ ansible_facts.interfaces }}"
+          # - "Name Servers:: {{ ansible_facts.dns.nameservers }}"
+          # - "Kernel:: {{ ansible_facts.kernel }}"
+          - "{{ ansible_hostname }}" 
+          - "{{ ansible_local }}" 

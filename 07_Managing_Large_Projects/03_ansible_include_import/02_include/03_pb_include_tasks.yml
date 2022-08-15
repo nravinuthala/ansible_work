@@ -1,0 +1,13 @@
+---
+- name: clean up web and db server
+  hosts: rhel_nodes
+  gather_facts: no
+  become: yes
+  ignore_unreachable: true
+
+  tasks:
+    - name: stop and remove web server
+      include_tasks: 01_tsks_web_server.yml
+
+    - name: stop and remove db server
+      include_tasks: 02_tsks_db_server.yml
